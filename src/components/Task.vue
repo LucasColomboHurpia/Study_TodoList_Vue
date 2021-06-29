@@ -57,14 +57,19 @@ export default {
 
 .taskUnchecked {
   background-color: white;
+    background-color: rgb(241, 239, 239);
+    padding-left: 10px;
   position: relative;
+  margin-bottom: 5px;
   display: grid;
   grid-template-columns: 1fr 15fr;
 }
 
 .taskChecked {
   background: #84ff80;
+     padding-left: 10px;
   position: relative;
+    margin-bottom: 5px;
   display: grid;
   grid-template-columns: 1fr 15fr;
 }
