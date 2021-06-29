@@ -17,6 +17,8 @@ body {
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
+
+  background-color: rgb(163, 162, 162);
 }
 .btn {
   display: inline-block;
