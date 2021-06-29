@@ -8,10 +8,10 @@
     />
     <div :class="[task.done ? 'done' : '', 'task']" >
       <h3>
-        {{ task.text }}
+       <span :class='task.done ? "taskTextdone":""'>{{ task.text }}</span> 
         <i @click="$emit('delete-task', task.id)" class="fas fa-times"></i>
       </h3>
-      <p>{{ task.day }} at {{task.time}}</p>
+      <p :class='task.done ? "taskTextdone":""'>{{ task.day }} at {{task.time}}</p>
     </div>
   </div>
 </template>
@@ -40,9 +40,6 @@ export default {
 
 
 <style scope>
-:root {
-  --bg: #f4f4f4;
-}
 
 .checkBox {
   cursor: pointer;
@@ -59,7 +56,7 @@ export default {
 }
 
 .taskUnchecked {
-  background: var(--bg);
+  background-color: white;
   position: relative;
   display: grid;
   grid-template-columns: 1fr 15fr;
@@ -71,6 +68,12 @@ export default {
   display: grid;
   grid-template-columns: 1fr 15fr;
 }
+.taskChecked:hover,.taskUnchecked:hover{
+  transform: scale(1.05);
+   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+   z-index: 2;
+/*   border: 1px solid black ;
+ */  }
 
 .fas {
   color: black;
@@ -78,16 +81,15 @@ export default {
 }
 .fas:hover {
   color: red;
-  font-size: 1.5rem;
+   transform: scale(1.5);
 }
 
 .task {
   margin: 5px;
   padding: 10px 20px;
 }
-
-.done{
-  border-left: 5px solid green;
+.taskTextdone{
+  text-decoration:line-through;
 }
 .task h3 {
   display: flex;

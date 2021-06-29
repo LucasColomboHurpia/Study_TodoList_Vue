@@ -2,7 +2,7 @@
     <button 
     @click="onclick()"
     :style="{background: color}"
-     class="btn">
+     class="btn btnshow">
         {{text}}
      </button>
 </template>
@@ -21,3 +21,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.btnshow:hover{
+  background-color: #b64848 ;
+  color: black;
+}
+</style>
