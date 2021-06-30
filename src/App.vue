@@ -1,20 +1,16 @@
 <template>
   <div class="container">
-    <Header 
-    @toggle-add-task="toggleAddTask"
-    :showAddTask="showAddTask"
-    title="Task Tracker" />
+    <Header
+      @toggle-add-task="toggleAddTask"
+      :showAddTask="showAddTask"
+      title="Task Tracker"
+    />
 
     <div v-show="showAddTask">
-      <AddTask 
-      @add-task="addTask"/>
+      <AddTask @add-task="addTask" />
     </div>
 
-    <Tasks 
-    @toggle-done="toggleDone" 
-    @delete-task="deleteTask" 
-    :tasks="tasks" />
-
+    <Tasks @toggle-done="toggleDone" @delete-task="deleteTask" :tasks="tasks" />
   </div>
 </template>
 
@@ -23,7 +19,7 @@
 <script>
 import Header from "./components/Header.vue";
 import Tasks from "./components/TasksGroup.vue";
-import AddTask from "./components/AddTask.vue"
+import AddTask from "./components/AddTask.vue";
 
 export default {
   name: "App",
@@ -36,58 +32,51 @@ export default {
   data() {
     return {
       tasks: [],
-      showAddTask: false,
+      showAddTask: true,
     };
   },
 
   methods: {
-    toggleAddTask(){
-      this.showAddTask = !this.showAddTask
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask;
     },
 
-    addTask(task){
-      this.tasks = [...this.tasks, task]
+    addTask(task) {
+      this.tasks = [...this.tasks, task];
+      this.updateStorage();
     },
 
     deleteTask(id) {
       if (confirm("Are you sure?")) {
         this.tasks = this.tasks.filter((task) => task.id !== id);
       }
+      this.updateStorage();
     },
 
-    toggleDone(id){ //change here and in TEMPLATE
-      this.tasks = this.tasks.map((task)=> 
-        task.id === id?
-        {...task, done: !task.done}
-        :task
-      )
+    toggleDone(id) {
+      this.tasks = this.tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      );
+      this.updateStorage();
+    },
+
+    updateStorage() {
+      localStorage.setItem("Tasks", JSON.stringify(this.tasks));
+    },
+
+    storageTasks() {
+      if (localStorage.getItem("Tasks") === null) {
+        localStorage.setItem("Tasks", JSON.stringify(this.tasks));
+      } else {
+        let taskStorage = JSON.parse(localStorage.getItem("Tasks"));
+        this.tasks = taskStorage;
+        this.updateStorage();
+      }
     },
   },
 
   created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "taks1",
-        day: "March 1st at 2:30pm",
-        time: "2pm",
-        done: true,
-      },
-      {
-        id: 2,
-        text: "taks2",
-        day: "March sft at 2:30pm",
-        time: "2pm",
-        done: true,
-      },
-      {
-        id: 3,
-        text: "taks3",
-        day: "March 1st at 2:30pm",
-        time: "2pm",
-        done: false,
-      },
-    ];
+    this.storageTasks();
   },
 };
 </script>
